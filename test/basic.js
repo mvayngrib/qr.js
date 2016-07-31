@@ -1,5 +1,6 @@
 var assert = require('assert');
 var qr = require('../');
+var ErrorCorrectLevels = require('../lib/ErrorCorrectLevel')
 
 test('basic', function() {
     var qrcode = qr('foo');
@@ -13,4 +14,12 @@ test('binary', function() {
     var qrcodeBuffer = qr(hex);
     assert.equal(qrcodeStr.modules.length, 85);
     assert.equal(qrcodeBuffer.modules.length, 117);
+});
+
+test('specify correction level', function () {
+    for (var name in ErrorCorrectLevels) {
+      var level = ErrorCorrectLevels[name]
+      var qrcode = qr('foo', { errorCorrectLevel: level })
+      assert.equal(qrcode.errorCorrectLevel, level)
+    }
 });
